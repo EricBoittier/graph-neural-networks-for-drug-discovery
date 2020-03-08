@@ -1,0 +1,15 @@
+#/bin/bash
+#PBS -N nvt1
+#PBS -P ho87
+#PBS -q gpuvolta
+#PBS -l ncpus=12
+#PBS -l ngpus=1
+#PBS -l walltime=48:00:00
+#PBS -l mem=100GB
+#PBS -l software=PyTorch
+#PBS -l wd
+#PBS -l storage=scratch/ho87 
+
+source activate my-rdkit-env
+
+python train.py ENNS2V --train-set data/train.csv.gz --valid-set data/validate.csv.gz --test-set data/test.csv.gz --loss MaskedMultiTaskCrossEntropy --score roc-auc --s2v-lstm-computations 9 --out-hidden-dim 150 --logging more --epochs 20 --learn-rate 0.0001 --savemodel --savemodel
